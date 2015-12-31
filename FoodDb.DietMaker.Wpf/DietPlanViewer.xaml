@@ -1,0 +1,210 @@
+﻿<UserControl x:Class="FoodDb.DietMaker.Wpf.DietPlanViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FoodDb.DietMaker.Wpf"
+             mc:Ignorable="d" 
+			 Background="White"
+			 FontFamily="Segoe UI Light"
+			 FontSize="17"
+			 d:DataContext="{d:DesignInstance local:DietPlanViewerViewModel}"
+             d:DesignHeight="300" d:DesignWidth="900">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<Style x:Key="NumericTextBlock" TargetType="TextBlock">
+				<Setter Property="TextAlignment" Value="Right" />
+			</Style>
+
+			<Style x:Key="TitleTextBlock" TargetType="TextBlock">
+				<Setter Property="FontFamily" Value="Segoe Print" />
+				<Setter Property="FontSize" Value="28" />
+				<Setter Property="Margin" Value="15,0,0,0" />
+			</Style>
+		</ResourceDictionary>
+	</UserControl.Resources>
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<Menu Grid.Row="0">
+			<MenuItem Header="Archivo">
+
+			</MenuItem>
+		</Menu>
+
+		<Grid Grid.Row="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<TextBlock Grid.Column="0" Style="{StaticResource TitleTextBlock}">Mi Plan Dietario</TextBlock>
+
+			<UniformGrid Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Columns="2">
+				<ToggleButton x:Name="BtnSettings" Margin="5">C</ToggleButton>
+				<Button x:Name="BtnHelp" Margin="5">?</Button>
+			</UniformGrid>
+
+			<Popup Grid.Column="0" Grid.Row="0" Placement="Bottom" PlacementTarget="{Binding ElementName=BtnSettings}" IsOpen="{Binding IsChecked, ElementName=BtnSettings}">
+				<Grid>
+					<Rectangle Fill="White" Stroke="#aaa" StrokeThickness="1" />
+					<Grid Margin="10">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition />
+							<RowDefinition />
+						</Grid.RowDefinitions>
+						
+						<StackPanel Grid.Column="0" Margin="5">
+							<TextBlock>Mi masa <LineBreak />actual (Kg)</TextBlock>
+							<TextBox />
+						</StackPanel>
+						
+						<StackPanel Grid.Row="0" Grid.Column="1" Margin="5">
+							<TextBlock>Mi altura <LineBreak /> actual (cm)</TextBlock>
+							<TextBox />
+						</StackPanel>
+
+						<StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="5">
+							<TextBlock>Mi nivel de actividad fisica</TextBlock>
+							<ComboBox />
+						</StackPanel>
+						
+					</Grid>
+				</Grid>
+			</Popup>
+
+			<DataGrid x:Name="dataGrid" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Margin="5,0,5,5" ItemsSource="{Binding Diet}" SelectedItem="{Binding SelectedDietPlanItem}"
+					  AutoGenerateColumns="False" CanUserAddRows="False" VerticalGridLinesBrush="Transparent">
+				<DataGrid.Columns>
+					<DataGridComboBoxColumn Header="Momento" ItemsSource="{Binding FoodTimes}" TextBinding="{Binding FoodTime}" />
+					<DataGridTextColumn Header="Alimento" Binding="{Binding Food.Name}" IsReadOnly="True" />
+					<DataGridTextColumn Header="Comentario" Binding="{Binding Comment}" />
+					<DataGridTextColumn Header="Masa (g)" Binding="{Binding Mass, StringFormat=0.0}" ElementStyle="{StaticResource NumericTextBlock}" />
+					<DataGridTextColumn Header="Energia (Kcal)" Binding="{Binding Energy, StringFormat=0.0}" IsReadOnly="True" ElementStyle="{StaticResource NumericTextBlock}" />
+					<DataGridTextColumn Header="Sodio (mg)" Binding="{Binding Sodium, StringFormat=0.0}" IsReadOnly="True" ElementStyle="{StaticResource NumericTextBlock}" />
+					<DataGridTextColumn Header="Proteina (g)" Binding="{Binding Protein, StringFormat=0.0}" IsReadOnly="True" ElementStyle="{StaticResource NumericTextBlock}" />
+					<DataGridTextColumn Header="Carbohidratos (g)" Binding="{Binding Carbohydrates, StringFormat=0.0}" IsReadOnly="True" ElementStyle="{StaticResource NumericTextBlock}" />
+					<DataGridTextColumn Header="Grasa (g)" Binding="{Binding Fat, StringFormat=0.0}" IsReadOnly="True" ElementStyle="{StaticResource NumericTextBlock}" />
+					<DataGridTextColumn Header="Colesterol (mg)" Binding="{Binding Cholesterol, StringFormat=0.0}" IsReadOnly="True" ElementStyle="{StaticResource NumericTextBlock}" />
+				</DataGrid.Columns>
+			</DataGrid>
+
+			<TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TitleTextBlock}">Alimentos disponibles</TextBlock>
+
+			<DataGrid Grid.Row="1" Grid.Column="1" Margin="0,0,5,5" IsReadOnly="True" ItemsSource="{Binding Foods}" SelectedItem="{Binding SelectedFoodItem}"
+					  AutoGenerateColumns="False" EnableRowVirtualization="True" CanUserResizeRows="False" VerticalGridLinesBrush="Transparent">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="Alimento" Binding="{Binding Name}" />
+					<DataGridTextColumn Header="Masa (g)" Binding="{Binding Mass, StringFormat=0.0}" ElementStyle="{StaticResource NumericTextBlock}" />
+					<DataGridTextColumn Header="Energia (Kcal)" Binding="{Binding Energy, StringFormat=0.0}" ElementStyle="{StaticResource NumericTextBlock}" />
+					<DataGridTextColumn Header="Sodio (mg)" Binding="{Binding Sodium, StringFormat=0.0}" ElementStyle="{StaticResource NumericTextBlock}" />
+					<DataGridTextColumn Header="Proteina (g)" Binding="{Binding Protein, StringFormat=0.0}" ElementStyle="{StaticResource NumericTextBlock}" />
+					<DataGridTextColumn Header="Carbohidratos (g)" Binding="{Binding Carbohydrates, StringFormat=0.0}" ElementStyle="{StaticResource NumericTextBlock}" />
+					<DataGridTextColumn Header="Grasa (g)" Binding="{Binding Fat, StringFormat=0.0}" ElementStyle="{StaticResource NumericTextBlock}" />
+					<DataGridTextColumn Header="Colesterol (mg)" Binding="{Binding Cholesterol, StringFormat=0.0}" ElementStyle="{StaticResource NumericTextBlock}" />
+					<DataGridTextColumn Header="Categoria" Binding="{Binding Category}" />
+				</DataGrid.Columns>
+				<DataGrid.ContextMenu>
+					<ContextMenu>
+						<MenuItem Header="Agregar" Command="{Binding AddSelectedFoodItemToDietCommand}" />
+					</ContextMenu>
+				</DataGrid.ContextMenu>
+			</DataGrid>
+
+			<TextBox Grid.Row="2" Grid.Column="1" Margin="0,0,5,5" VerticalContentAlignment="Center" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+			</TextBox>
+
+			<Label Grid.Row="2" Grid.Column="1" Margin="0,0,5,5" FontFamily="Segoe UI" FontStyle="Italic" VerticalContentAlignment="Center" Opacity="0.7" IsHitTestVisible="False">
+				<Label.Content>
+					Escriba aqui para buscar alimentos...
+				</Label.Content>
+				<Label.Style>
+					<Style TargetType="Label">
+						<Setter Property="Visibility" Value="Hidden" />
+						<Style.Triggers>
+							<DataTrigger Binding="{Binding SearchText}" Value="">
+								<Setter Property="Visibility" Value="Visible" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</Label.Style>
+			</Label>
+			
+			<GridSplitter Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Width="5"/>
+		</Grid>
+
+		<UniformGrid Grid.Row="2" Margin="5,0,5,5" Rows="2">
+			
+			<TextBlock Grid.Column="0" TextAlignment="Center" TextWrapping="Wrap">
+				Masa
+				<LineBreak />
+				<Run Text="{Binding TotalMass, Mode=OneWay, StringFormat='0.0 g'}" />
+			</TextBlock>
+			<TextBlock Grid.Column="1" TextAlignment="Center" TextWrapping="Wrap">
+				Energia
+				<LineBreak />
+				<Run Text="{Binding TotalEnergy, Mode=OneWay, StringFormat=0.0}" />
+			</TextBlock>
+			<TextBlock Grid.Column="2" TextAlignment="Center" TextWrapping="Wrap">
+				Sodio
+				<LineBreak />
+				<Run Text="{Binding TotalSodium, Mode=OneWay, StringFormat=0.0}" />
+			</TextBlock>
+			<TextBlock Grid.Column="3" TextAlignment="Center" TextWrapping="Wrap">
+				Proteina
+				<LineBreak />
+				<Run Text="{Binding TotalProtein, Mode=OneWay, StringFormat=0.0}" />
+			</TextBlock>
+			<TextBlock Grid.Column="4" TextAlignment="Center" TextWrapping="Wrap">
+				Colesterol
+				<LineBreak />
+				<Run Text="{Binding TotalCholesterol, Mode=OneWay, StringFormat=0.0}" />
+			</TextBlock>
+			<TextBlock Grid.Column="8" TextAlignment="Center" TextWrapping="Wrap">
+				Carbohidratos
+				<LineBreak />
+				<Run Text="{Binding TotalCarbohydrates, Mode=OneWay, StringFormat=0.0}" />
+			</TextBlock>
+			<TextBlock Grid.Column="9" TextAlignment="Center" TextWrapping="Wrap">
+				Grasa
+				<LineBreak />
+				<Run Text="{Binding TotalFat, Mode=OneWay, StringFormat=0.0}" />
+			</TextBlock>
+			<TextBlock Grid.Column="10" TextAlignment="Center" TextWrapping="Wrap">
+				A. Grasos P.
+				<LineBreak />
+				<Run Text="{Binding TotalFattyAcidsPolyUnsaturated, Mode=OneWay, StringFormat=0.0}" />
+			</TextBlock>
+			<TextBlock Grid.Column="11" TextAlignment="Center" TextWrapping="Wrap">
+				A. Grasos M.
+				<LineBreak />
+				<Run Text="{Binding TotalFattyAcidsMonoUnsaturated, Mode=OneWay, StringFormat=0.0}" />
+			</TextBlock>
+			<TextBlock Grid.Column="12" TextAlignment="Center" TextWrapping="Wrap">
+				A. Grasos S.
+				<LineBreak />
+				<Run Text="{Binding TotalFattyAcidsSaturated, Mode=OneWay, StringFormat=0.0}" />
+			</TextBlock>
+			<TextBlock Grid.Column="13" TextAlignment="Center" TextWrapping="Wrap">
+				Perdida de masa
+				<LineBreak />
+				<Run Text="{Binding WeightLoss, Mode=OneWay, StringFormat=0.0}" />
+			</TextBlock>
+		</UniformGrid>
+	</Grid>
+</UserControl>

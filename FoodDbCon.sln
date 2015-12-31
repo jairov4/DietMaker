@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDbCon", "FoodDbCon\FoodDbCon.csproj", "{18C8EFCB-0E09-4890-9020-E95B5E084AAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDb.DietMaker.Wpf", "FoodDb.DietMaker.Wpf\FoodDb.DietMaker.Wpf.csproj", "{35245BF8-C69B-4A8C-8BA2-ABFE9C72E7EF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{18C8EFCB-0E09-4890-9020-E95B5E084AAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18C8EFCB-0E09-4890-9020-E95B5E084AAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18C8EFCB-0E09-4890-9020-E95B5E084AAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18C8EFCB-0E09-4890-9020-E95B5E084AAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35245BF8-C69B-4A8C-8BA2-ABFE9C72E7EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35245BF8-C69B-4A8C-8BA2-ABFE9C72E7EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35245BF8-C69B-4A8C-8BA2-ABFE9C72E7EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35245BF8-C69B-4A8C-8BA2-ABFE9C72E7EF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
