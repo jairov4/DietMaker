@@ -56,6 +56,8 @@ namespace FoodDb.DietMaker.Wpf
 
 		public ICommand AddSelectedFoodItemToDietCommand { get; }
 
+		public ICommand RemoveSelectedDietItemCommand { get; }
+
 		public ObservableCollection<DietPlanItem> Diet { get; private set; }
 
 		public IReadOnlyCollection<string> FoodTimes { get; }
@@ -202,6 +204,11 @@ namespace FoodDb.DietMaker.Wpf
 			AddSelectedFoodItemToDietCommand = addSelectedFoodItemCommand;
 			addSelectedFoodItemCommand.Subscribe(_ => AddSelectedFoodItemToDietPlan());
 
+			var canRemoveDietItem = this.WhenAny(x => x.SelectedDietPlanItem, x => x != null);
+			var removeDietItemCommand = ReactiveCommand.Create(canRemoveDietItem);
+			RemoveSelectedDietItemCommand = removeDietItemCommand;
+			removeDietItemCommand.Subscribe(_ => RemoveSelectedDietItem());
+
 			this._searchText = string.Empty;
 			
 			this.WhenAnyValue(x => x.SearchText)
@@ -223,7 +230,7 @@ namespace FoodDb.DietMaker.Wpf
 				"Desayuno", "Media mañana", "Almuerzo", "Tarde", "Cena"
 			};
 		}
-
+		
 		private void Diet_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
 			if (e.OldItems != null)
@@ -325,6 +332,13 @@ namespace FoodDb.DietMaker.Wpf
 			};
 			this.Diet.Add(item);
 		}
+		
+		private void RemoveSelectedDietItem()
+		{
+			if(this.SelectedDietPlanItem == null) return;
+
+			this.Diet.Remove(this.SelectedDietPlanItem);
+		}
 	}
 
 	public class FoodItem
@@ -374,9 +388,11 @@ namespace FoodDb.DietMaker.Wpf
 
 	public class DietPlanItem : ReactiveObject
 	{
-		private string _foodTime;
+		private static readonly IReadOnlyCollection<string> Empty = new string[0];
+
+		private string _foodTime = string.Empty;
 		private FoodItem _food;
-		private string _comment;
+		private string _comment = string.Empty;
 		private float _mass;
 		private float? _energy;
 		private float? _sodium;
@@ -387,7 +403,7 @@ namespace FoodDb.DietMaker.Wpf
 		private float? _fattyAcidsPolyUnsaturated;
 		private float? _fattyAcidsSaturated;
 		private float? _carbohydrates;
-		private IReadOnlyCollection<string> _foodTimes;
+		private IReadOnlyCollection<string> _foodTimes = Empty;
 
 		public string FoodTime
 		{
