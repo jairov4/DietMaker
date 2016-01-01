@@ -1,4 +1,0 @@
-language: csharp
-solution: FoodDbCon.sln
-install:
-  - nuget restore FoodDbCon.sln
