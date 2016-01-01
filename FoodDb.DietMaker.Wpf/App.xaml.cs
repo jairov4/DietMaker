@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// <copyright company="Skivent Ltda.">
+// Copyright (c) 2013, All Right Reserved, http://www.skivent.com.co/
+// </copyright>
+
 using System.Windows;
 using FoodDbCon;
 
@@ -14,9 +12,10 @@ namespace FoodDb.DietMaker.Wpf
 	/// </summary>
 	public partial class App : Application
 	{
-		public MainWindow Window => (MainWindow) base.MainWindow;
+		public MainWindow Window => (MainWindow) MainWindow;
 
 		public new static App Current => (App) Application.Current;
-		public FoodDbCon.FoodDataSet FoodData { get; set; }
+
+		public FoodDataSet FoodData { get; set; }
 	}
 }

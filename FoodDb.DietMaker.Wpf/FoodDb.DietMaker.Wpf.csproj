@@ -105,9 +105,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DietPlanItem.cs" />
     <Compile Include="DietPlanViewer.xaml.cs">
       <DependentUpon>DietPlanViewer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DietPlanViewerViewModel.cs" />
+    <Compile Include="FoodItem.cs" />
     <Compile Include="FoodRepositoryViewer.xaml.cs">
       <DependentUpon>FoodRepositoryViewer.xaml</DependentUpon>
     </Compile>

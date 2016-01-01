@@ -49,7 +49,7 @@ namespace FoodDbCon
 			option.MaxDegreeOfParallelism = 60;
 			var count = 0;
 			var dictionary = new ConcurrentDictionary<int, FoodAttributeDescriptor>();
-			var maxRetries = 10; 
+			var maxRetries = 10;
 			Parallel.ForEach(r, option, id =>
 			{
 				Interlocked.Increment(ref count);
@@ -73,13 +73,14 @@ namespace FoodDbCon
 			foodDb.FetchDate = DateTime.Now;
 			foodDb.Foods = cbag.ToList();
 			foodDb.Descriptors = dictionary.Values.ToList();
-			var ser = new DataContractSerializer(typeof(FoodDataSet));
+			var ser = new DataContractSerializer(typeof (FoodDataSet));
 			var file = File.OpenWrite("foodDb.xml");
 			ser.WriteObject(file, foodDb);
 			file.Close();
 		}
 
-		private static FoodAttributeDescriptor GetDescriptor(IDictionary<int, FoodAttributeDescriptor> descriptors, int id, XElement element)
+		private static FoodAttributeDescriptor GetDescriptor(IDictionary<int, FoodAttributeDescriptor> descriptors, int id,
+			XElement element)
 		{
 			FoodAttributeDescriptor val;
 			if (descriptors.TryGetValue(id, out val))
@@ -124,7 +125,9 @@ namespace FoodDbCon
 		<atribute1 name=""f_id""/>	
 	</cond1>
 	<relation type=""EQUAL""/>
-	<cond3>{id}</cond3>
+	<cond3>{
+					id
+					}</cond3>
 </condition>
 <order ordtype=""ASC"">
 	<atribute3 name=""componentgroup_id""/>
@@ -144,11 +147,11 @@ namespace FoodDbCon
 			foodBlock.Attributes = new List<FoodAttribute>();
 
 			var atts = from c in foodItem.Descendants("foodvalue") select c;
-			foreach(var att in atts)
+			foreach (var att in atts)
 			{
 				var attid = int.Parse(att.Element("c_id")?.Value);
 				var valStr = att.Element("best_location")?.Value;
-				var val = !string.IsNullOrWhiteSpace(valStr) ? (float?)float.Parse(valStr) : null;
+				var val = !string.IsNullOrWhiteSpace(valStr) ? (float?) float.Parse(valStr) : null;
 				var item = new FoodAttribute
 				{
 					Id = attid,
@@ -210,7 +213,7 @@ namespace FoodDbCon
 
 		[DataMember(Name = "c3")]
 		public string Category3 { get; set; }
-		
+
 		[DataMember]
 		public List<FoodAttribute> Attributes { get; set; }
 	}

@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// <copyright company="Skivent Ltda.">
+// Copyright (c) 2013, All Right Reserved, http://www.skivent.com.co/
+// </copyright>
+
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace FoodDb.DietMaker.Wpf
 {
@@ -27,12 +19,12 @@ namespace FoodDb.DietMaker.Wpf
 			CreateDataSet();
 		}
 
-		void CreateDataSet()
+		private void CreateDataSet()
 		{
 			var dt = new DataTable();
 
 			dt.Columns.Add(new DataColumn("Nombre"));
-			dataGrid.Columns.Add(new DataGridTextColumn()
+			dataGrid.Columns.Add(new DataGridTextColumn
 			{
 				Binding = new Binding("ItemArray[0]"),
 				Header = "Nombre"
@@ -51,7 +43,7 @@ namespace FoodDb.DietMaker.Wpf
 					{
 						dt.Columns.Add(new DataColumn(aname));
 						var id = dataGrid.Columns.Count;
-						dataGrid.Columns.Add(new DataGridTextColumn()
+						dataGrid.Columns.Add(new DataGridTextColumn
 						{
 							Header = aname,
 							Binding = new Binding($"ItemArray[{id}]")
